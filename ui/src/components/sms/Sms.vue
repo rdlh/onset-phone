@@ -41,6 +41,7 @@ export default {
           }
         }
 
+        conversations[conversationWith].last_message_at = message.created_at
         conversations[conversationWith].messages.push({ id: i, from_me: senderIsMe, content: message.content })
       }
 

@@ -16,6 +16,10 @@
     "new": "Créer un contact",
     "save": "Modifier le contact",
     "message": "Envoyer un message",
+    "delete": "Supprimer le contact",
+    "are_you_sure": "Êtes vous sûrs?",
+    "yes": "Oui",
+    "no": "Non",
     "errors": {
       "no_name": "Le nom est obligatoire pour créer un contact",
       "no_phone": "Le numéro de téléphone doit être sous la forme \"555XXXXXX\"",

@@ -6,13 +6,26 @@
       <input class="input" id="contact_name" ref="contactName" v-model="contactName" :placeholder="$root.translations.contacts.name_placeholder" type="text" name="">
 
       <label for="contact_phone">{{ $root.translations.contacts.phone }}</label>
-      <input class="input" id="contact_phone" ref="contactPhone" autofocus v-model="contactPhone" :placeholder="$root.translations.contacts.phone_placeholder" type="text" name="">
+      <input :readonly="!contact.isNew" class="input" id="contact_phone" ref="contactPhone" autofocus v-model="contactPhone" :placeholder="$root.translations.contacts.phone_placeholder" type="text" name="">
 
-      <input class="input contact-button" type="submit" name="" :value="$root.translations.contacts[contact.isNew ? 'new' : 'save']">
+      <input class="input contact-button green-text" type="submit" name="" :value="$root.translations.contacts[contact.isNew ? 'new' : 'save']">
     </form>
-    <div class="padded-container">
+    <div v-if="!contact.isNew" class="padded-container">
+      <div v-if="removing">
+        {{ $root.translations.contacts.are_you_sure }}
+      </div>
+      <div v-if="removing" @click="removeContact()" class="green-text">
+        {{ $root.translations.contacts.yes }}
+      </div>
+      <div v-if="removing" @click="removing = false" class="red-text">
+        {{ $root.translations.contacts.no }}
+      </div>
+      <div v-else @click="removing = true" class="red-text">
+        {{ $root.translations.contacts.delete }}
+      </div>
+    </div>
+    <div v-if="!contact.isNew" class="padded-container">
       <router-link
-        v-if="!contact.isNew"
         class="input contact-button"
         :to="'/sms/' + contact.phone"
       >
@@ -29,7 +42,8 @@ export default {
     return {
       error: null,
       contactName: '',
-      contactPhone: ''
+      contactPhone: '',
+      removing: false
     }
   },
   props: {
@@ -79,12 +93,28 @@ export default {
                 name: this.contactName,
                 phone: this.contactPhone
               })
+
+              if (window.ue) {
+                window.ue.game.callevent("ContactCreated", JSON.stringify([this.contactName,  this.contactPhone]));
+              } else {
+                // eslint-disable-next-line
+                console.log('-> window.ue.game.callevent("ContactCreated", ' + JSON.stringify([this.contactName,  this.contactPhone]) + ')')
+              }
+
               this.$router.push('/contacts')
             }
           } else {
             // Update contact
             this.contact.phone = this.contactPhone
             this.contact.name = this.contactName
+
+            if (window.ue) {
+              window.ue.game.callevent("ContactUpdated", JSON.stringify([this.contactName,  this.contactPhone]));
+            } else {
+              // eslint-disable-next-line
+              console.log('-> window.ue.game.callevent("ContactCreated", ' + JSON.stringify([this.contactName,  this.contactPhone]) + ')')
+            }
+
             this.$router.push('/contacts')
           }
 
@@ -120,5 +150,17 @@ export default {
 
   .error {
     color: red;
+  }
+
+  input[readonly] {
+    cursor: no-drop;
+  }
+
+  .red-text {
+    color: #c0392b!important;
+  }
+
+  .green-text {
+    color: #27ae60!important;
   }
 </style>

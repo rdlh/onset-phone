@@ -3,7 +3,7 @@
     <router-link
       :to="`/contacts/${contact.phone}`"
       class="contact cursor-pointer padded-container"
-      v-for="contact in $root.contacts"
+      v-for="contact in filteredAndSortedContacts"
       v-bind:key="contact.phone"
     >
       <div>
@@ -36,6 +36,15 @@ export default {
 
       var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return result ? 'rgba(' + parseInt(result[1], 16) + ',' + parseInt(result[2], 16) + ',' + parseInt(result[3], 16) + ',' + opacity + ')' : '';
+    }
+  },
+  computed: {
+    filteredAndSortedContacts: function () {
+      let filteredContacts = this.$root.contacts
+
+      return filteredContacts.sort(function(a, b) {
+        return a.name.localeCompare(b.name)
+      });
     }
   }
 }

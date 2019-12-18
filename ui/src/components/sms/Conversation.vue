@@ -88,6 +88,7 @@ export default {
         let newMessage = {
           from: this.$root.currentUserPhone,
           to: this.$route.params.phone_number,
+          created_at: Math.floor(new Date().getTime() / 1000),
           content: this.text
         }
 
@@ -97,6 +98,9 @@ export default {
 
         if (window.ue) {
           window.ue.game.callevent("SendMessage", JSON.stringify([newMessage.to, newMessage.content]));
+        } else {
+          // eslint-disable-next-line
+          console.log('-> window.ue.game.callevent("SendMessage", ' + JSON.stringify([newMessage.to, newMessage.content]) + ')')
         }
       }
     }

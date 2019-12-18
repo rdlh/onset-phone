@@ -1,19 +1,19 @@
 <template>
   <div class="conversations-container">
     <router-link
-      :to="`/sms/${phoneNumber}`"
+      :to="`/sms/${conversation[0]}`"
       class="conversation cursor-pointer padded-container"
-      v-for="phoneNumber in Object.keys(conversations)"
-      v-bind:key="phoneNumber"
+      v-for="conversation in sortedConversations"
+      v-bind:key="conversation[0]"
     >
       <div>
-        <span class="avatar" v-if="conversations[phoneNumber].name == phoneNumber" :style="conversationStyle(phoneNumber)">?</span>
-        <span class="avatar" v-else :style="conversationStyle(phoneNumber)">{{ conversations[phoneNumber].name[0] }}</span>
+        <span class="avatar" v-if="conversation[1].name == conversation[0]" :style="conversationStyle(conversation[0])">?</span>
+        <span class="avatar" v-else :style="conversationStyle(conversation[0])">{{ conversation[1].name[0] }}</span>
       </div>
       <div>
-        <b>{{ conversations[phoneNumber].name.replace('555', '555-') }}</b>
+        <b>{{ conversation[1].name.replace('555', '555-') }}</b>
         <br>
-        <span class="preview-message">{{ conversations[phoneNumber].messages[conversations[phoneNumber].messages.length - 1].content }}</span>
+        <span class="preview-message">{{ conversation[1].messages[conversation[1].messages.length - 1].content }}</span>
       </div>
     </router-link>
   </div>
@@ -23,6 +23,19 @@
 export default {
   name: 'conversations',
   props: ['conversations'],
+  computed: {
+    sortedConversations: function() {
+      let sortable = [];
+
+      for (let phoneNumber in this.conversations) {
+        sortable.push([phoneNumber, this.conversations[phoneNumber]]);
+      }
+
+      return sortable.sort(function(a, b) {
+        return parseInt(b[1].last_message_at) - parseInt(a[1].last_message_at);
+      });
+    }
+  },
   methods: {
     goToConversation: function (phoneNumber) {
       this.$parent.currentConversationWith = phoneNumber
