@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>onset-phone</title>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but onset-phone doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app">1</div>
     <!-- built files will be auto injected -->
+    <!-- Game API files -->
+    <script>function initPhone (data) { window.phoneApp.currentUserPhone = data.currentUserPhone; window.phoneApp.contacts = data.contacts; window.phoneApp.messages = data.messages; window.phoneApp.loaded = true }</script>
   </body>
 </html>
