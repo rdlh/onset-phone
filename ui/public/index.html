@@ -15,6 +15,7 @@
         border: 1px solid #d8dfe3;
         bottom: 650px;
         left: 20px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -32,6 +33,10 @@
         window.phoneApp.contacts = data.contacts
         window.phoneApp.messages = data.messages
         window.phoneApp.loaded = true
+      }
+
+      function NewMessage (message) {
+        window.phoneApp.messages.push(message)
       }
 
       function closePhone () {

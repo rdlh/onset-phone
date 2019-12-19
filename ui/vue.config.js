@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: './',
   runtimeCompiler: true,
   chainWebpack: config => {
     if(config.plugins.has('extract-css')) {

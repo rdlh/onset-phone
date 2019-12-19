@@ -97,10 +97,10 @@ export default {
         this.text = ''
 
         if (window.ue) {
-          window.ue.game.callevent("SendMessage", JSON.stringify([newMessage.to, newMessage.content]));
+          window.ue.game.callevent("MessageCreated", JSON.stringify([newMessage.to, newMessage.content]));
         } else {
           // eslint-disable-next-line
-          console.log('-> window.ue.game.callevent("SendMessage", ' + JSON.stringify([newMessage.to, newMessage.content]) + ')')
+          console.log('-> window.ue.game.callevent("MessageCreated", ' + JSON.stringify([newMessage.to, newMessage.content]) + ')')
         }
       }
     }

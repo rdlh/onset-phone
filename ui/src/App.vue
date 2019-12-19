@@ -97,6 +97,7 @@ export default {
   border-radius: 36px;
   display: flex;
   flex-direction: column;
+  background: #ffffff;
 }
 
 /* The horizontal line on the top of the device */

@@ -15,15 +15,19 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 🚀 Features
+### 🏠 Homepage
+- Choose an app
+	- SMS (by [@rdlh](https://github.com/rdlh))
+	- Contacts (by [@rdlh](https://github.com/rdlh))
+### 🧑‍🤝‍🧑 Contacts:
+- View and search your contacts list
+- Create contacts
+- Update contacts
+### 💬 Messages:
+- Send messages
+- Receive messages
+- Send emojis (Ex: `:)` -> `😊`)
+## 🔐 Security
+- [x] XSS injections proof
+- [x] SQL injections proof

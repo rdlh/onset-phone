@@ -22,7 +22,7 @@ function OnMessagesLoaded(player)
     for i = 1, mariadb_get_row_count() do
         local message = mariadb_get_assoc(i)
 
-        messages[i] = { content = string.gsub(message['content'], '"', "\\\""), from = message['from'], to = message['to'] }
+        messages[i] = { content = string.gsub(message['content'], '"', "\\\""), from = message['from'], to = message['to'],  }
     end
 
     CallRemoteEvent(player, "OnPhoneLoaded", player, PlayerData[player].phone_number, messages, PlayerData[player].phone_contacts)
@@ -31,33 +31,37 @@ end
 -- CONTACTS
 
 function ContactCreated(player, name, phone)
-    local query = mariadb_prepare(sql, "INSERT INTO phone_contacts (`id`, `owner_id`, `name`, `phone`, `last_message_at`) VALUES (NULL, '?', '?', '?', '?');",
-		tostring(PlayerData[player].accountid), name, phone, tostring(os.time(os.date("!*t"))))
+    local query = mariadb_prepare(sql, "INSERT INTO phone_contacts (`id`, `owner_id`, `name`, `phone`) VALUES (NULL, '?', '?', '?');",
+		tostring(PlayerData[player].accountid), name, phone)
 
-	mariadb_query(sql, query, NullCallback, player)
+	mariadb_query(sql, query, NullCallback)
 end
 AddRemoteEvent("ContactCreated", ContactCreated)
 
--- CONTACTS
-
 function ContactUpdated(player, name, phone)
-    local query = mariadb_prepare(sql, "INSERT INTO phone_contacts (`id`, `owner_id`, `name`, `phone`, `last_message_at`) VALUES (NULL, '?', '?', '?', '?');",
-        tostring(PlayerData[player].accountid), name, phone, tostring(os.time(os.date("!*t"))))
+    local query = mariadb_prepare(sql, "UPDATE phone_contacts SET name = '?' WHERE phone = '?' AND owner_id = '?';", name, phone, tostring(PlayerData[player].accountid))
 
     mariadb_query(sql, query, NullCallback, player)
 end
-AddRemoteEvent("ContactCreated", ContactCreated)
+AddRemoteEvent("ContactUpdated", ContactUpdated)
+
+function ContactDeleted(player, phone)
+    local query = mariadb_prepare(sql, "DELETE FROM phone_contacts WHERE phone = '?' AND owner_id = '?';", phone, tostring(PlayerData[player].accountid))
+
+    mariadb_query(sql, query, NullCallback, player)
+end
+AddRemoteEvent("ContactDeleted", ContactDeleted)
 
 -- MESSAGES
 
-function MessageSent(player, phone, content)
+function MessageCreated(player, phone, content)
     local created_at = tostring(os.time(os.date("!*t")))
     local query = mariadb_prepare(sql, "INSERT INTO messages (`id`, `from`, `to`, `content`, `created_at`) VALUES (NULL, '?', '?', '?', '?');",
         tostring(PlayerData[player].phone_number), phone, content, created_at)
 
     mariadb_query(sql, query, OnMessageCreated, player, phone, content, created_at)
 end
-AddRemoteEvent("MessageSent", MessageSent)
+AddRemoteEvent("MessageCreated", MessageCreated)
 
 function OnMessageCreated(player, phone, content, created_at)
     CallRemoteEvent(player, "NewMessage", PlayerData[player].phone_number, phone, content, created_at)

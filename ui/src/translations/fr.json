@@ -7,6 +7,8 @@
     "message_placeholder": "Message..."
   },
   "contacts": {
+    "me": "Mon numéro: ",
+    "search": "Recherche",
     "title": "Contacts",
     "new": "Nouveau contact",
     "name": "Nom :",

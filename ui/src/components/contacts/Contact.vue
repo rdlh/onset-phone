@@ -11,16 +11,21 @@
       <input class="input contact-button green-text" type="submit" name="" :value="$root.translations.contacts[contact.isNew ? 'new' : 'save']">
     </form>
     <div v-if="!contact.isNew" class="padded-container">
-      <div v-if="removing">
-        {{ $root.translations.contacts.are_you_sure }}
+      <div v-if="removing" class="padded-container">
+        <span>
+          {{ $root.translations.contacts.are_you_sure }}&nbsp;&nbsp;
+        </span>
+        <span @click="removeContact()" class="green-text">
+          {{ $root.translations.contacts.yes }}
+        </span>
+        <span>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+        </span>
+        <span @click="removing = false" class="red-text">
+          {{ $root.translations.contacts.no }}
+        </span>
       </div>
-      <div v-if="removing" @click="removeContact()" class="green-text">
-        {{ $root.translations.contacts.yes }}
-      </div>
-      <div v-if="removing" @click="removing = false" class="red-text">
-        {{ $root.translations.contacts.no }}
-      </div>
-      <div v-else @click="removing = true" class="red-text">
+      <div v-else @click="removing = true" class="input contact-button red-text">
         {{ $root.translations.contacts.delete }}
       </div>
     </div>
@@ -83,10 +88,10 @@ export default {
 
           if (this.contact.isNew) {
             // Already existing contact with this phone number
-            let existing = this.$root.contacts.find(function(contact){ return contact.phone == this.contactPhone })
+            let existing = this.$root.contacts.find((contact) => { return contact.phone == this.contactPhone })
             if (existing) {
               this.error = this.$root.translations.contacts.errors.existing + existing.name
-              this.$refs.this.contactPhone.focus()
+              this.$refs.contactPhone.focus()
             } else {
               // Create contact
               this.$root.contacts.unshift({
@@ -120,7 +125,7 @@ export default {
 
         } else {
           this.error = this.$root.translations.contacts.errors.no_phone
-          this.$refs.this.contactPhone.focus()
+          this.$refs.contactPhone.focus()
         }
       }
     }

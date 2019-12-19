@@ -24,7 +24,7 @@ end)
 
 AddRemoteEvent("OnPhoneLoaded", function(player, phoneNumber, messages, contacts)
     SetPlayerPropertyValue(player, 'uiMode', 'free')
-    ExecuteWebJS(web, "initPhone({ currentUserPhone: "..phoneNumber..", contacts: "..json_encode(contacts)..", messages: "..json_encode(messages).."});")
+    ExecuteWebJS(web, "initPhone({ currentUserPhone: '"..phoneNumber.."', contacts: "..json_encode(contacts)..", messages: "..json_encode(messages).."});")
     SetIgnoreLookInput(true)
     SetIgnoreMoveInput(true)
     ShowMouseCursor(true)
@@ -44,6 +44,12 @@ AddEvent("ContactUpdated", function(name, phone)
     CallRemoteEvent("ContactUpdated", name, phone)
 end)
 
+-- CONTACT DELETED
+
+AddEvent("ContactDeleted", function(name, phone)
+    CallRemoteEvent("ContactDeleted", name, phone)
+end)
+
 -- MESSAGE CREATED
 
 AddEvent("MessageCreated", function(phone, content)
@@ -53,17 +59,16 @@ end)
 -- MESSAGE RECEIVED
 
 AddRemoteEvent("NewMessage", function(from, to, content, created_at)
-    print('messageReceived('..json_encode({ from = from, to = to, content = content })..');')
     ExecuteWebJS(web, 'messageReceived('..json_encode({ from = from, to = to, content = content, created_at = tostring(created_at) })..');')
 end)
 
 -- UI FUNCTIONS
 
-AddEvent("ClosePhone", function(player)
-    ClosePhone(player)
+AddEvent("ClosePhone", function()
+    ClosePhone()
 end)
 
-function ClosePhone(player)
+function ClosePhone()
     phoneOpened = false
     SetIgnoreLookInput(false)
     SetIgnoreMoveInput(false)
@@ -73,7 +78,7 @@ function ClosePhone(player)
     CallRemoteEvent("UnloadPhone")
 end
 
-function OpenPhone(player)
+function OpenPhone()
     phoneOpened = true
     CallRemoteEvent("LoadPhone")
 end
