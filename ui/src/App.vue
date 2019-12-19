@@ -16,7 +16,8 @@
       <router-view v-if="$root.loaded"></router-view>
       <div v-else class="lds-dual-ring"></div>
     </div>
-   </div>
+    <router-link to="/" class="home-button"></router-link >
+  </div>
 </template>
 
 <script>
@@ -115,7 +116,7 @@ export default {
 }
 
 /* The circle on the bottom of the device */
-.smartphone:after {
+.smartphone .home-button {
   content: '';
   display: block;
   width: 35px;
