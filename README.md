@@ -18,6 +18,10 @@
 - [x] XSS injections proof
 - [x] SQL injections proof
 
+## TODO:
+- Create a random and unused number for accounts
+- Make sure the receiver is getting the message (needs to be tested on a real server)
+
 ## Coming soon:
 - Darkmode
 - Change background
@@ -25,8 +29,33 @@
 - More emoji
 - Bug fixes
 
+## Add it in your server:
 
-## Project setup
+```
+"server_scripts": [
+	...
+    "onset-phone/server.lua"
+],
+"client_scripts": [
+    ...
+    "onset-phone/client.lua"
+],
+"files": [
+    ...
+    "onset-phone/ui/dist/index.html",
+    "onset-phone/ui/dist/app.js",
+    "onset-phone/ui/dist/chunk-vendors.js",
+    "onset-phone/ui/dist/app.css"
+]
+```
+
+and don't forget to run [onset-phone.sql](https://github.com/rdlh/onset-phone/blob/master/onset-phone.sql)
+
+## Contribute:
+
+All PR answered in less than 1 day.
+
+### Project setup
 ```
 npm install
 ```
