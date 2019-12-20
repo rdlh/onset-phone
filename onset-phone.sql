@@ -9,7 +9,7 @@ CREATE TABLE `phone_contacts` (
   `name` varchar(255) NOT NULL DEFAULT '',
   `phone` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `messages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -18,9 +18,9 @@ CREATE TABLE `messages` (
   `content` text NOT NULL,
   `created_at` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 ALTER TABLE `accounts`
-	ADD `phone_number` VARCHAR(255) NOT NULL DEFAULT ''
+	ADD `phone_number` VARCHAR(255) DEFAULT NULL;
 
 COMMIT;

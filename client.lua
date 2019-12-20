@@ -23,6 +23,7 @@ end)
 -- LOADING
 
 AddRemoteEvent("OnPhoneLoaded", function(player, phoneNumber, messages, contacts)
+    phoneOpened = true
     SetPlayerPropertyValue(player, 'uiMode', 'free')
     ExecuteWebJS(web, "initPhone({ currentUserPhone: '"..phoneNumber.."', contacts: "..json_encode(contacts)..", messages: "..json_encode(messages).."});")
     SetIgnoreLookInput(true)
@@ -59,7 +60,9 @@ end)
 -- MESSAGE RECEIVED
 
 AddRemoteEvent("NewMessage", function(from, to, content, created_at)
-    ExecuteWebJS(web, 'messageReceived('..json_encode({ from = from, to = to, content = content, created_at = tostring(created_at) })..');')
+    print("------------------------")
+    MakeNotification(_("new_message"), "linear-gradient(to right, #ff5f6d, #ffc371)")
+    ExecuteWebJS(web, 'newMessage('..json_encode({ from = from, to = to, content = content, created_at = tostring(created_at) })..');')
 end)
 
 -- UI FUNCTIONS
@@ -79,6 +82,5 @@ function ClosePhone()
 end
 
 function OpenPhone()
-    phoneOpened = true
     CallRemoteEvent("LoadPhone")
 end

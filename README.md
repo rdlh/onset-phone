@@ -19,8 +19,6 @@
 - [x] SQL injections proof
 
 ## TODO:
-- Create a random and unused number for accounts
-- Contact deletion and update needs to synchronized with `PlayerData[player].phone_contacts`
 - Make sure the receiver is getting the message (needs to be tested on a real server)
 
 ## Coming soon:
@@ -32,41 +30,9 @@
 
 ## Add it in your server:
 
-```
-"server_scripts": [
-	...
-    "onset-phone/server.lua"
-],
-"client_scripts": [
-    ...
-    "onset-phone/client.lua"
-],
-"files": [
-    ...
-    "onset-phone/ui/dist/index.html",
-    "onset-phone/ui/dist/app.js",
-    "onset-phone/ui/dist/chunk-vendors.js",
-    "onset-phone/ui/dist/app.css"
-]
-```
-
-Load player's `phone_contacts`:
-
-```
-function LoadPlayerPhoneContacts(player)
-	local query = mariadb_prepare(sql, "SELECT * FROM phone_contacts WHERE phone_contacts.owner_id = ? ORDER BY phone_contacts.name;", PlayerData[player].accountid)
-
-	mariadb_async_query(sql, query, OnPhoneContactsLoaded, player)
-end
-
-function OnPhoneContactsLoaded(player)
-	for i = 1, mariadb_get_row_count() do
-        local contact = mariadb_get_assoc(i)
-        PlayerData[player].phone_contacts[i] = { id = tostring(contact['id']),  name = contact['name'], phone = contact['phone'] }
-    end
-    print("Phone contacts loaded for "..PlayerData[player].accountid)
-end
-```
+- [Server scripts](https://github.com/rdlh/onset-phone/wiki/Server-scripts)
+- [Generating phone numbers](https://github.com/rdlh/onset-phone/wiki/Generating-phone-numbers)
+- [Load player's phone_contacts](https://github.com/rdlh/onset-phone/wiki/Load-player's-phone_contacts)
 
 and don't forget to run [onset-phone.sql](https://github.com/rdlh/onset-phone/blob/master/onset-phone.sql)
 
