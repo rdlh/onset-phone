@@ -1,12 +1,19 @@
 local _ = function(k,...) return ImportPackage("i18n").t(GetPackageName(),k,...) end
 
+-- CONFIGS
+
+local canUsePhoneWithoutPhoneItem = false
+local phoneItemName = 'phone'
+
 -- LOADING
 
 function LoadPhone(player)
-    SetPlayerAnimation(player, 'PHONE_HOLD')
-    local query = mariadb_prepare(sql, "SELECT * FROM messages WHERE messages.from = '?' OR messages.to = '?';", tostring(PlayerData[player].phone_number), tostring(PlayerData[player].phone_number))
+    if canUsePhoneWithoutPhoneItem or PlayerData[player].inventory[phoneItemName] then
+        SetPlayerAnimation(player, 'PHONE_HOLD')
+        local query = mariadb_prepare(sql, "SELECT * FROM messages WHERE messages.from = '?' OR messages.to = '?';", tostring(PlayerData[player].phone_number), tostring(PlayerData[player].phone_number))
 
-    mariadb_async_query(sql, query, OnMessagesLoaded, player)
+        mariadb_async_query(sql, query, OnMessagesLoaded, player)
+    end
 end
 AddRemoteEvent("LoadPhone", LoadPhone)
 
@@ -31,6 +38,8 @@ end
 -- CONTACTS
 
 function ContactCreated(player, name, phone)
+    table.insert(PlayerData[player].phone_contacts, { name = name, phone = phone })
+
     local query = mariadb_prepare(sql, "INSERT INTO phone_contacts (`id`, `owner_id`, `name`, `phone`) VALUES (NULL, '?', '?', '?');",
 		tostring(PlayerData[player].accountid), name, phone)
 
@@ -39,6 +48,12 @@ end
 AddRemoteEvent("ContactCreated", ContactCreated)
 
 function ContactUpdated(player, name, phone)
+    for key, value in pairs(PlayerData[player].phone_contacts) do
+        if PlayerData[player].phone_contacts[key]['phone'] == phone then
+            PlayerData[player].phone_contacts[key]['name'] = name
+        end
+    end
+
     local query = mariadb_prepare(sql, "UPDATE phone_contacts SET name = '?' WHERE phone = '?' AND owner_id = '?';", name, phone, tostring(PlayerData[player].accountid))
 
     mariadb_query(sql, query, NullCallback, player)
@@ -46,6 +61,12 @@ end
 AddRemoteEvent("ContactUpdated", ContactUpdated)
 
 function ContactDeleted(player, phone)
+    for key, value in pairs(PlayerData[player].phone_contacts) do
+        if PlayerData[player].phone_contacts[key]['phone'] == phone then
+            table.remove(PlayerData[player].phone_contacts, key)
+        end
+    end
+
     local query = mariadb_prepare(sql, "DELETE FROM phone_contacts WHERE phone = '?' AND owner_id = '?';", phone, tostring(PlayerData[player].accountid))
 
     mariadb_query(sql, query, NullCallback, player)
@@ -59,27 +80,15 @@ function MessageCreated(player, phone, content)
     local query = mariadb_prepare(sql, "INSERT INTO messages (`id`, `from`, `to`, `content`, `created_at`) VALUES (NULL, '?', '?', '?', '?');",
         tostring(PlayerData[player].phone_number), phone, content, created_at)
 
-    mariadb_query(sql, query, OnMessageCreated, player, phone, content, created_at)
-end
-AddRemoteEvent("MessageCreated", MessageCreated)
+    local playersIds = GetAllPlayers()
 
-function OnMessageCreated(player, phone, content, created_at)
-    CallRemoteEvent(player, "NewMessage", PlayerData[player].phone_number, phone, content, created_at)
-end
-
--- LOADERS
-
-function OnAccountByPhoneLoaded(player)
-	if (mariadb_get_row_count() == 0) then
-		CallRemoteEvent(player, "MessagesLoaded", {})
-	else
-        local receiverId = mariadb_get_value_index(1, 1)
-        
-        local query = mariadb_prepare(sql, "SELECT * FROM messages WHERE (from_id = '?' AND to_id = '?') OR (from_id = '?' AND to_id = '?');", tostring(PlayerData[player].accountid), tostring(receiverId), tostring(receiverId), tostring(PlayerData[player].accountid))
-
-	    mariadb_async_query(sql, query, OnMessagesLoaded, player, receiverId)
+    for playerId, v in pairs(playersIds) do
+        if PlayerData[playerId].phone_number == phone then
+            CallRemoteEvent(playerId, "NewMessage", PlayerData[player].phone_number, phone, content, created_at)
+        end
     end
 end
+AddRemoteEvent("MessageCreated", MessageCreated)
 
 -- UTILS
 
