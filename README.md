@@ -14,7 +14,7 @@
 - Send messages
 - Receive messages
 - Send emojis (Ex: `:)` -> `😊`)
-### 💬 Banking:
+### 💸 Banking:
 - See your account balance
 ### 🔐 Security
 - [x] XSS injections proof
