@@ -25,6 +25,7 @@ AddRemoteEvent("UnloadPhone", UnloadPhone)
 
 function OnMessagesLoaded(player)
     local messages = {}
+    local playerData = PlayerData[player]
 
     for i = 1, mariadb_get_row_count() do
         local message = mariadb_get_assoc(i)
@@ -32,7 +33,7 @@ function OnMessagesLoaded(player)
         messages[i] = { content = string.gsub(message['content'], '"', "\\\""), from = message['from'], to = message['to'],  }
     end
 
-    CallRemoteEvent(player, "OnPhoneLoaded", player, PlayerData[player].phone_number, messages, PlayerData[player].phone_contacts)
+    CallRemoteEvent(player, "OnPhoneLoaded", player, playerData.phone_number, playerData.bank_balance, messages, playerData.phone_contacts)
 end
 
 -- CONTACTS

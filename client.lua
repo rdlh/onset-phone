@@ -22,10 +22,10 @@ end)
 
 -- LOADING
 
-AddRemoteEvent("OnPhoneLoaded", function(player, phoneNumber, messages, contacts)
+AddRemoteEvent("OnPhoneLoaded", function(player, phoneNumber, money, messages, contacts)
     phoneOpened = true
     SetPlayerPropertyValue(player, 'uiMode', 'free')
-    ExecuteWebJS(web, "initPhone({ currentUserPhone: '"..phoneNumber.."', contacts: "..json_encode(contacts)..", messages: "..json_encode(messages).."});")
+    ExecuteWebJS(web, "initPhone({ currentUserPhone: '"..phoneNumber.."', money: "..money..", contacts: "..json_encode(contacts)..", messages: "..json_encode(messages).."});")
     SetIgnoreLookInput(true)
     SetIgnoreMoveInput(true)
     ShowMouseCursor(true)

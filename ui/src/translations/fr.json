@@ -27,5 +27,14 @@
       "no_phone": "Le numéro de téléphone doit être sous la forme \"555XXXXXX\"",
       "existing": "Un contact existe déjà avec ce numéro de téléphone: "
     }
+  },
+  "bank": {
+    "title": "Imminent Wealth Bank",
+    "balance": "Argent sur mon compte : ",
+    "history": "Opérations passées",
+    "loan": "Demander un prêt",
+    "sendmoney": "Envoyer de l'argent",
+    "bills": "Payer une facture",
+    "comingsoon": "Arrive bientôt"
   }
 }
