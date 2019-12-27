@@ -4,11 +4,12 @@ local _ = function(k,...) return ImportPackage("i18n").t(GetPackageName(),k,...)
 
 local canUsePhoneWithoutPhoneItem = false
 local phoneItemName = 'phone'
+local canUsePhoneWhileGathering = false
 
 -- LOADING
 
 function LoadPhone(player)
-    if canUsePhoneWithoutPhoneItem or PlayerData[player].inventory[phoneItemName] then
+    if (canUsePhoneWhileGathering or not PlayerData[player].onAction) and canUsePhoneWithoutPhoneItem or PlayerData[player].inventory[phoneItemName] then
         SetPlayerAnimation(player, 'PHONE_HOLD')
         local query = mariadb_prepare(sql, "SELECT * FROM messages WHERE messages.from = '?' OR messages.to = '?';", tostring(PlayerData[player].phone_number), tostring(PlayerData[player].phone_number))
 
