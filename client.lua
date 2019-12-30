@@ -2,7 +2,7 @@ local _ = _ or function(k,...) return ImportPackage("i18n").t(GetPackageName(),k
 
 local previousInputMode
 
-local web = CreateWebUI(0, 0, 0, 0, 2, 16)
+local web = CreateWebUI(0, 0, 0, 0, 2, 60)
 SetWebVisibility(web, WEB_HIDDEN)
 SetWebAlignment(web, 0, 0)
 SetWebAnchors(web, 0, 0, 1, 1)
