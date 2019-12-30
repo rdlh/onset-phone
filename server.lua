@@ -89,6 +89,8 @@ function MessageCreated(player, phone, content)
             CallRemoteEvent(playerId, "NewMessage", PlayerData[player].phone_number, phone, content, created_at)
         end
     end
+	
+    mariadb_query(sql, query, NullCallback)
 end
 AddRemoteEvent("MessageCreated", MessageCreated)
 
