@@ -5,6 +5,7 @@
 - Choose an app
 	- SMS (by [@rdlh](https://github.com/rdlh))
 	- Contacts (by [@rdlh](https://github.com/rdlh))
+	- Banking (by [@rdlh](https://github.com/rdlh))
 ### 🧑‍🤝‍🧑 Contacts:
 - View and search your contacts list
 - Create contacts
