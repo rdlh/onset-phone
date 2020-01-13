@@ -60,7 +60,6 @@ end)
 -- MESSAGE RECEIVED
 
 AddRemoteEvent("NewMessage", function(from, to, content, created_at)
-    print("------------------------")
     MakeNotification(_("new_message"), "linear-gradient(to right, #ff5f6d, #ffc371)")
     ExecuteWebJS(web, 'newMessage('..json_encode({ from = from, to = to, content = content, created_at = tostring(created_at) })..');')
 end)
