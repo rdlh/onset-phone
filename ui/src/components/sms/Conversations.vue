@@ -11,7 +11,8 @@
         <span class="avatar" v-else :style="conversationStyle(conversation[0])">{{ conversation[1].name[0] }}</span>
       </div>
       <div>
-        <b>{{ conversation[1].name.replace('555', '555-') }}</b>
+        <b v-if="conversation[1].name != '0'">{{ conversation[1].name.replace('555', '555-') }}</b>
+        <b v-else>{{ $root.translations.conversations.anonymous }}</b>
         <br>
         <span class="preview-message">{{ conversation[1].messages[conversation[1].messages.length - 1].content }}</span>
       </div>

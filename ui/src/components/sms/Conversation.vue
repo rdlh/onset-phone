@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <form @submit.prevent="sendMessage" class="conversation-form">
+    <form v-if="conversation.name != '0'" @submit.prevent="sendMessage" class="conversation-form">
       <input ref="conversationInput" :placeholder="$root.translations.conversations.message_placeholder" class="conversation-input" type="text" v-model="text">
     </form>
   </div>
@@ -33,7 +33,9 @@ export default {
   },
   props: ['conversation'],
   mounted () {
-    this.$refs.conversationInput.focus()
+    if (this.$refs.conversationInput) {
+      this.$refs.conversationInput.focus()
+    }
 
     this.$nextTick(function () {
       this.$refs.conversationList.scrollTop = this.$refs.conversationList.scrollHeight;
