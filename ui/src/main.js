@@ -8,6 +8,7 @@ import App from './App.vue'
 import Homescreen from './Homescreen.vue'
 import Sms from './components/sms/Sms.vue'
 import Contacts from './components/contacts/Contacts.vue'
+import Bank from './components/bank/Bank.vue'
 
 Vue.config.productionTip = false
 
@@ -40,7 +41,8 @@ const routes = [
   { path: '/contacts/:phone_number', component: Contacts, name: 'Contact', meta: { title: function (route) {
     let contact = window.phoneApp ? window.phoneApp.contacts.find(function(contact){ return contact.phone == route.params.phone_number }) : { name: route.params.phone_number.replace('555', '555-') }
     return contact ? contact.name : route.params.phone_number.replace('555', '555-')
-  } } }
+  } } },
+  { path: '/bank', component: Bank, name: 'Bank', meta: { title: translations.bank.title } }
 ]
 Vue.use(VueRouter)
 
@@ -48,6 +50,7 @@ const router = new VueRouter({ routes })
 
 let data = {
   currentUserPhone: '555000000',
+  money: 17643.90,
   contacts: [
     { name: "Contact 1", phone: "555718754" },
     { name: "Contact 2", phone: "555120298" },

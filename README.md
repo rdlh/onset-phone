@@ -14,12 +14,15 @@
 - Send messages
 - Receive messages
 - Send emojis (Ex: `:)` -> `😊`)
+### 💸 Banking:
+- See your account balance
 ### 🔐 Security
 - [x] XSS injections proof
 - [x] SQL injections proof
 
 ## TODO:
 - Make sure the receiver is getting the message (needs to be tested on a real server)
+- Emergency services
 
 ## Coming soon:
 - Darkmode

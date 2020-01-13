@@ -27,5 +27,14 @@
       "no_phone": "Phone number should match \"555XXXXXX\"",
       "existing": "A contact already exist with this phone number: "
     }
+  },
+  "bank": {
+    "title": "Imminent Wealth Bank",
+    "balance": "Money on my account: ",
+    "history": "History",
+    "loan": "Get loans",
+    "sendmoney": "Send money",
+    "bills": "Pay bills",
+    "comingsoon": "Coming soon"
   }
 }

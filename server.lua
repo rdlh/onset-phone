@@ -4,11 +4,12 @@ local _ = function(k,...) return ImportPackage("i18n").t(GetPackageName(),k,...)
 
 local canUsePhoneWithoutPhoneItem = false
 local phoneItemName = 'phone'
+local canUsePhoneWhileGathering = false
 
 -- LOADING
 
 function LoadPhone(player)
-    if canUsePhoneWithoutPhoneItem or PlayerData[player].inventory[phoneItemName] then
+    if (canUsePhoneWhileGathering or not PlayerData[player].onAction) and canUsePhoneWithoutPhoneItem or PlayerData[player].inventory[phoneItemName] then
         SetPlayerAnimation(player, 'PHONE_HOLD')
         local query = mariadb_prepare(sql, "SELECT * FROM messages WHERE messages.from = '?' OR messages.to = '?';", tostring(PlayerData[player].phone_number), tostring(PlayerData[player].phone_number))
 
@@ -25,6 +26,7 @@ AddRemoteEvent("UnloadPhone", UnloadPhone)
 
 function OnMessagesLoaded(player)
     local messages = {}
+    local playerData = PlayerData[player]
 
     for i = 1, mariadb_get_row_count() do
         local message = mariadb_get_assoc(i)
@@ -32,7 +34,7 @@ function OnMessagesLoaded(player)
         messages[i] = { content = string.gsub(message['content'], '"', "\\\""), from = message['from'], to = message['to'],  }
     end
 
-    CallRemoteEvent(player, "OnPhoneLoaded", player, PlayerData[player].phone_number, messages, PlayerData[player].phone_contacts)
+    CallRemoteEvent(player, "OnPhoneLoaded", player, playerData.phone_number, playerData.bank_balance, messages, playerData.phone_contacts)
 end
 
 -- CONTACTS
@@ -77,16 +79,25 @@ AddRemoteEvent("ContactDeleted", ContactDeleted)
 
 function MessageCreated(player, phone, content)
     local created_at = tostring(os.time(os.date("!*t")))
+
+    local from = nil
+    if player ~= -1 then 
+        from = PlayerData[player].phone_number
+    else
+        from = "Anonymous"
+    end
     local query = mariadb_prepare(sql, "INSERT INTO messages (`id`, `from`, `to`, `content`, `created_at`) VALUES (NULL, '?', '?', '?', '?');",
-        tostring(PlayerData[player].phone_number), phone, content, created_at)
+        tostring(from), phone, content, created_at)
 
     local playersIds = GetAllPlayers()
 
     for playerId, v in pairs(playersIds) do
         if PlayerData[playerId].phone_number == phone then
-            CallRemoteEvent(playerId, "NewMessage", PlayerData[player].phone_number, phone, content, created_at)
+            CallRemoteEvent(playerId, "NewMessage", from, phone, content, created_at)
         end
     end
+	
+    mariadb_query(sql, query, NullCallback)
 end
 AddRemoteEvent("MessageCreated", MessageCreated)
 
