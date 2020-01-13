@@ -81,10 +81,10 @@ function MessageCreated(player, phone, content)
     local created_at = tostring(os.time(os.date("!*t")))
 
     local from = nil
-    if player ~= -1 then 
-        from = PlayerData[player].phone_number
+    if player == 0 then
+        from = "0"
     else
-        from = "Anonymous"
+        from = PlayerData[player].phone_number
     end
     local query = mariadb_prepare(sql, "INSERT INTO messages (`id`, `from`, `to`, `content`, `created_at`) VALUES (NULL, '?', '?', '?', '?');",
         tostring(from), phone, content, created_at)
@@ -96,7 +96,7 @@ function MessageCreated(player, phone, content)
             CallRemoteEvent(playerId, "NewMessage", from, phone, content, created_at)
         end
     end
-	
+
     mariadb_query(sql, query, NullCallback)
 end
 AddRemoteEvent("MessageCreated", MessageCreated)

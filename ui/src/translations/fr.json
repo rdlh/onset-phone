@@ -4,7 +4,8 @@
   },
   "conversations": {
     "title": "Conversations",
-    "message_placeholder": "Message..."
+    "message_placeholder": "Message...",
+    "anonymous": "Anonyme"
   },
   "contacts": {
     "me": "Mon numéro: ",
