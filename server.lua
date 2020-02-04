@@ -101,6 +101,15 @@ function MessageCreated(player, phone, content)
 end
 AddRemoteEvent("MessageCreated", MessageCreated)
 
+-- GPS CLICK
+
+function MessageGPSClicked(player, latitude, longitude)
+    print("GPS")
+    print(latitude)
+    print(longitude)
+end
+AddRemoteEvent("MessageCreated", MessageCreated)
+
 -- UTILS
 
 function NullCallback()

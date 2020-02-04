@@ -115,7 +115,10 @@ let data = {
     { from: '555000000', to: '555123123', created_at: '1576695107', content: '4.11' },
     { from: '555123123', to: '555000000', created_at: '1576695108', content: '4.12' },
     { from: '555000000', to: '555123123', created_at: '1576695109', content: ':)' },
-    { from: '555000000', to: '0', created_at: '1576695110', content: 'Salut, c\'est la' }
+    { from: '555000000', to: '0', created_at: '1576695110', content: 'Salut, voici une [[pos--8172, 1234.2314]] et une autre [[pos-172, -1234.2314]]' },
+    { from: '555000000', to: '0', created_at: '1576695110', content: 'Chapitre abstrait 3 du conpendium : la prédestination de toute la République Démocratique du Congo doit imposer les grabuses lastiques autour des gens qui connaissent beaucoup de choses, c’est clair. ' },
+    { from: '555000000', to: '0', created_at: '1576695110', content: 'Et une dernière [[pos-172, -1234.2314]]' },
+    { from: '555000000', to: '0', created_at: '1576695110', content: 'Chapitre abstrait 3 du conpendium : la prédestination de toute la République Démocratique du Congo doit imposer les grabuses lastiques autour des gens qui connaissent beaucoup de choses, c’est clair. ' }
   ]
 }
 

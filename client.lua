@@ -57,6 +57,12 @@ AddEvent("MessageCreated", function(phone, content)
     CallRemoteEvent("MessageCreated", phone, content)
 end)
 
+-- GPS CLICK
+
+AddEvent("MessageGPSClicked", function(latitude, longitude)
+    CallRemoteEvent("MessageGPSClicked", latitude, longitude)
+end)
+
 -- MESSAGE RECEIVED
 
 AddRemoteEvent("NewMessage", function(from, to, content, created_at)

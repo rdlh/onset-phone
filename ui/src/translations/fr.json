@@ -5,7 +5,8 @@
   "conversations": {
     "title": "Conversations",
     "message_placeholder": "Message...",
-    "anonymous": "Anonyme"
+    "anonymous": "Anonyme",
+    "gps": "Position GPS"
   },
   "contacts": {
     "me": "Mon numéro: ",
